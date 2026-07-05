@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}SQL 注入 - 数字型{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>SQL 注入 - 数字型查询 <span class="vuln-tag">高危</span></h2>
+    <p>URL 参数 id 直接拼接到查询中。</p>
+    <p style="font-size:12px;color:#64748b;">后台 SQL：{{ query }}</p>
+    <form method="GET" action="/sqli/data">
+        <label>用户 ID</label>
+        <input type="text" name="id" value="1" placeholder="1 UNION SELECT ...">
+        <button type="submit">查询</button>
+    </form>
+    {% if rows %}
+    <table>
+        <tr><th>ID</th><th>用户名</th><th>密码</th><th>角色</th></tr>
+        {% for r in rows %}
+        <tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td>{{ r[2] }}</td><td>{{ r[3] }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

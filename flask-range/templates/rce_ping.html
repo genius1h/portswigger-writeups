@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}命令注入 - Ping{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>命令注入 - Ping <span class="vuln-tag">高危</span></h2>
+    <p>IP 地址直接拼接到系统命令中，未经任何过滤。</p>
+    <p style="font-size:12px;color:#64748b;">后台命令：ping -n 2 [你的输入]</p>
+    <form method="POST" action="/rce/ping">
+        <label>IP 地址</label>
+        <input type="text" name="ip" value="127.0.0.1" placeholder="127.0.0.1 & whoami">
+        <button type="submit">Ping</button>
+    </form>
+    {% if output %}<div class="output">{{ output }}</div>{% endif %}
+</div>
+{% endblock %}

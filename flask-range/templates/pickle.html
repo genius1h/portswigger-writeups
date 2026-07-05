@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}不安全反序列化{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>不安全反序列化 - Pickle <span class="vuln-tag">高危</span></h2>
+    <p>服务端直接反序列化用户提供的 Base64 编码的 Pickle 数据，可导致 RCE。</p>
+    <p style="font-size:12px;color:#64748b;">输入：Base64(pickle.dumps(your_object))</p>
+    <form method="POST" action="/pickle">
+        <label>Pickle 数据（Base64 编码）</label>
+        <textarea name="data" rows="4" placeholder="gAN9cQAoWAUAAABhZG1pbnEBTlEELg=="></textarea>
+        <button type="submit">反序列化</button>
+    </form>
+    {% if result %}<div class="output">{{ result }}</div>{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}CSRF 转账{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>CSRF - 跨站请求伪造</h2>
+    <p>转账接口没有任何 CSRF Token 校验，任意来源的 POST 请求都会执行转账。</p>
+    <div style="background:#0f172a;border-radius:6px;padding:16px;margin-bottom:16px;">
+        <span style="color:#94a3b8;font-size:14px;">当前余额：</span>
+        <span style="color:#38bdf8;font-size:24px;font-weight:700;">{{ balance }}</span>
+        <span style="color:#94a3b8;"> 元</span>
+    </div>
+    {% if msg %}<div class="flash success">{{ msg }}</div>{% endif %}
+    <form method="POST" action="/csrf/transfer">
+        <label>转账金额</label>
+        <input type="text" name="amount" value="1000">
+        <button type="submit">转账</button>
+    </form>
+</div>
+{% endblock %}

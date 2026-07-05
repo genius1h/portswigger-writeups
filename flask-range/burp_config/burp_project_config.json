@@ -1,0 +1,48 @@
+{
+  "project_name": "Flask_Target_Range",
+  "target": {
+    "scope": {
+      "include": [
+        {
+          "protocol": "http",
+          "host": "127.0.0.1",
+          "port": 5000,
+          "file": "/.*"
+        }
+      ],
+      "exclude": []
+    }
+  },
+  "proxy": {
+    "listeners": [
+      {
+        "bind_to_port": true,
+        "listen_address": "127.0.0.1",
+        "listen_port": 8080
+      }
+    ]
+  },
+  "training_routes": [
+    {"path": "/sqli/login", "vuln": "SQL注入-登录绕过", "method": "POST"},
+    {"path": "/sqli/data", "vuln": "SQL注入-数字型", "method": "GET"},
+    {"path": "/xss/reflected", "vuln": "XSS-反射型", "method": "GET|POST"},
+    {"path": "/xss/stored", "vuln": "XSS-存储型", "method": "POST"},
+    {"path": "/csrf/transfer", "vuln": "CSRF", "method": "POST"},
+    {"path": "/ssrf/fetch", "vuln": "SSRF", "method": "POST"},
+    {"path": "/rce/ping", "vuln": "命令注入", "method": "POST"},
+    {"path": "/upload", "vuln": "文件上传", "method": "POST"},
+    {"path": "/jwt/admin", "vuln": "JWT伪造", "method": "GET"},
+    {"path": "/idor/profile", "vuln": "IDOR越权", "method": "GET"}
+  ],
+  "repeater_tabs": {
+    "sqli_login": {
+      "request": "POST /sqli/login HTTP/1.1\r\nHost: 127.0.0.1:5000\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nusername=admin' OR '1'='1&password=test"
+    },
+    "xss_reflected": {
+      "request": "POST /xss/reflected HTTP/1.1\r\nHost: 127.0.0.1:5000\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nname=<script>alert(1)</script>"
+    },
+    "cmd_injection": {
+      "request": "POST /rce/ping HTTP/1.1\r\nHost: 127.0.0.1:5000\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nip=127.0.0.1 & whoami"
+    }
+  }
+}
